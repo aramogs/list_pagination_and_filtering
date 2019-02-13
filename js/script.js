@@ -85,32 +85,38 @@ function InsertSearch(){
       inputSearch.placeholder ="Search for students...";
       buttonSearch.textContent="Search";
    }
-// SarchStudents: Used to search the students name
+
+
+
+// SarchStudents: Used to search the students name, eventlistener's for triggering the search
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////  
- function searchStudents(){
-         buttonSearch.addEventListener('click',()=>{ 
-            let k=0; 
-         var searchValue = inputSearch.value.toLowerCase();
-         var studentsName = document.getElementsByTagName('h3');
+inputSearch.addEventListener('keydown',(searchStudents)); //EventListener: Keydown at input search, triggers searchStudents
+buttonSearch.addEventListener('click',(searchStudents));  //EventListener: Click on button search, triggers searchStudents
+
+function searchStudents(){         
+         let count=0; 
+         let searchValue = inputSearch.value.toLowerCase();
+         let studentsName = document.getElementsByTagName('h3');
          Array.from(studentsName).forEach(function(item){  
-         var itemName = item.firstChild.textContent;
-            if(itemName.toLowerCase().indexOf(searchValue) != -1){
+         let itemName = item.firstChild.textContent;
+         let index = itemName.toLowerCase().indexOf(searchValue);
+            if(index != -1){
                item.parentElement.parentElement.style.display = "block";
                document.querySelector('h2').textContent = "Students";
                divPagination.style.display = "block"; 
             }else{
                item.parentElement.parentElement.style.display = "none";
-                  k++;
+                  count++;
             }
          });
-         if(k == students.length){
+         if(count == students.length){
              document.querySelector('h2').textContent = "No results have been found";
              divPagination.style.display = "none";  
-             console.log(k+"  "+ students.length)
+             //console.log(count+" equals "+ students.length)
           }
          
-      });
-   }
+      };
+   
 // Calling the functions
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////   
 firstPage();      //Loads the first 10 students
@@ -118,4 +124,3 @@ pagination();     //Adds pagination deppending on the number of students
 showArea();       //Shows only 10 users at a time when li element its clicked
 InsertSearch();   //Appends search input and button
 appendPageLinks();//Appends li for the pagination
-searchStudents(); //Shows students depending on what is typed on the search element
